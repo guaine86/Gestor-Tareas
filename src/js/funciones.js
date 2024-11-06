@@ -3,6 +3,7 @@ import {listaTareas} from '../index.js'
 
 const divTareasLista = document.querySelector('.todo-list');
 const txtInput = document.querySelector('.new-todo');
+const btnBorrar = document.querySelector('.clear-completed');
 
 export const crearTareaHtml = (tarea) =>{
     const htmlTarea = `
@@ -36,11 +37,29 @@ divTareasLista.addEventListener('click',(evento)=>{
     const nombreElemento = evento.target.localName;
     const tareaElemento = evento.target.parentElement.parentElement;
     const tareaId = tareaElemento.getAttribute('data-id');
-    console.log(tareaElemento);
-    console.log(tareaId);
+    // console.log(nombreElemento);
+    // console.log(tareaElemento);
+    // console.log(tareaId);
     if (nombreElemento.includes('input')){
         listaTareas.marcarCompletado(tareaId);
         tareaElemento.classList.add('completed')
+    }else if(nombreElemento.includes('button')){
+        listaTareas.eliminarTarea(tareaId);
+        divTareasLista.removeChild(tareaElemento);
     }
-    console.log(listaTareas)
+    //console.log(listaTareas)
+})
+
+btnBorrar.addEventListener('click', () =>{
+    listaTareas.eliminarCompletado();
+    //console.log(listaTareas);
+    for(let i = divTareasLista.children.length -1; i>=0; i--){
+        const elemento = divTareasLista.children[i];
+        //console.log(elemento);
+        if(elemento.classList.contains('completed')){
+            divTareasLista.removeChild(elemento);
+        }
+    }
+
+
 })
